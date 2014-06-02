@@ -1,10 +1,19 @@
-total = 10000
-arr = [[8440, 99], [5328, 99], [2448, 99], [400, 0]]
+total = 35800
+arr = [
+  [9648, 1],
+  [9600, 0],
+  [8440, 1],
+  [6024, 0],
+  [5328, 7],
+  [4816, 0],
+  [4660, 0],
+  [2448, 17],
+  [400, 5]]
 
 RESULT = []
 
 def try_next_recursion(arr, total, index, last_result=[])
-  for t in (0..([total/arr[index][0]+5,arr[index][1]].min))
+  for t in (0..([total/arr[index][0]+1,arr[index][1]].min))
     tmp_result = last_result.dup
 
     if 0 == index
@@ -30,4 +39,16 @@ def abs(x)
   x > 0 ? x : -x
 end
 
-RESULT.sort{|x,y| abs(x[0]) <=> abs(y[0])}.first(10).each{|x| puts x.inspect}
+puts "total: #{total}"
+
+RESULT.select{|x| x[0] >= 0}.sort{|x,y| abs(x[0]) <=> abs(y[0])}.first(20).each do |x|
+  str = "%3d waste: " % x[0]
+  is_first = true
+  x.each_with_index do |value, index|
+    next if 0 == value || 0 == index
+    str += ' + ' unless is_first
+    is_first = false
+    str += "%5d * %2d" % [arr[index-1][0], value]
+  end
+  puts str
+end
