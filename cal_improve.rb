@@ -1,14 +1,15 @@
-total = 35800
+total = 37800
 arr = [
-  [9648, 1],
-  [9600, 0],
-  [8440, 1],
-  [6024, 0],
-  [5328, 7],
-  [4816, 0],
+  [9648, 3],
+  [9600, 2],
+  [8440, 0],
+  [6024, 1],
+  [5328, 1],
+  [4816, 3],
   [4660, 0],
-  [2448, 17],
-  [400, 5]]
+  [2448, 3],
+  [400, 3]
+]
 
 RESULT = []
 
@@ -39,10 +40,20 @@ def abs(x)
   x > 0 ? x : -x
 end
 
+str = 'assets: '
+is_first = true
+arr.each_with_index do |value, index|
+  next if 0 == value[1]
+  str += ", " unless is_first
+  is_first = false
+  str += "%5d * %2d" % [value[0], value[1]]
+end
+puts str
+
 puts "total: #{total}"
 
-RESULT.select{|x| x[0] >= 0}.sort{|x,y| abs(x[0]) <=> abs(y[0])}.first(20).each do |x|
-  str = "%3d waste: " % x[0]
+RESULT.select{|x| x[0] >= 0 && x[0] < 400}.sort{|x,y| abs(x[0]) <=> abs(y[0])}.each do |x|
+  str = "%3d wasted: " % x[0]
   is_first = true
   x.each_with_index do |value, index|
     next if 0 == value || 0 == index
